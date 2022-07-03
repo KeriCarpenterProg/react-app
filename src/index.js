@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Remarkable from 'remarkable';
+// import Remarkable from 'remarkable';
 import reportWebVitals from './reportWebVitals';
 
 class A extends React.Component {
   constructor(props) {
     super(props);
     this.state = { value : 'Hello ***world!***!'};
-    this.md = new Remarkable();
+    // this.md = new Remarkable();
     this.b = this.b.bind(this);
   }
 
@@ -26,7 +26,16 @@ class A extends React.Component {
   render() {
     return(
     <div>
-    <h3>The Markdown Input is:</h3>
+    <h1>Calculator refactored into React</h1>
+    <p>Goal:  Refactor my existing javascript calculator into a React app.</p>
+    <h5>I am doing this in July 2022 for Kevin Chan, my tutor to prove my React skills.</h5>
+    <h5>Next steps:</h5>
+    <ul>
+      <li>Look at how to add javascript in here, not just html.</li>
+      <li>Figure out how to add CSS in here so it looks the same.</li>
+    </ul>
+    <hr></hr>
+    <h3>Below this is template stuff.  Old stuff that it might be helpful to have around for a bit.  But ultimately take out.</h3>
     <label htmlFor='markdown-content'>Enter some markdown here</label>
     <br></br>
     <textarea
