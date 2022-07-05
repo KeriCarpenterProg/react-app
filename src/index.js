@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-// import Remarkable from 'remarkable';
+// import './index.css';
 import reportWebVitals from './reportWebVitals';
+
+function NumberButton(props) {
+  return <button data-number>{props.number}</button>;
+}
 
 class A extends React.Component {
   constructor(props) {
@@ -24,16 +27,27 @@ class A extends React.Component {
   }
 
   render() {
+    const numbers = [null, "AC","Del","%",1, 2, 3, "*",4, 5, 6, "+",7, 8, 9,"-",".", 0, null, "="];
+
+    // <button className='span-two' data-all-clear>AC</button>
+    // <button data-delete>DEL</button>
+    // <button data-operation>%</button>
+    // <button data-operation="">*</button>
+    // <button data-operation="">+</button>
+    // <button data-operation="">-</button>
+    // <button data-operation="">.</button>
+    // <button className="span-two" data-equals="">=</button>
     return(
     <div>
-    <h1>Calculator refactored into React</h1>
-    <p>Goal:  Refactor my existing javascript calculator into a React app.</p>
-    <h5>I am doing this in July 2022 for Kevin Chan, my tutor to prove my React skills.</h5>
-    <h5>Next steps:</h5>
-    <ul>
-      <li>Look at how to add javascript in here, not just html.</li>
-      <li>Figure out how to add CSS in here so it looks the same.</li>
-    </ul>
+    <IntroText />
+    <div className='onecolumnwrapper'>
+      <div className="calculator-grid">
+        <Output />
+        {numbers.map((number) =>{
+          return <NumberButton number={number} />
+        })}
+      </div>
+    </div>
     <hr></hr>
     <h3>Below this is template stuff.  Old stuff that it might be helpful to have around for a bit.  But ultimately take out.</h3>
     <label htmlFor='markdown-content'>Enter some markdown here</label>
@@ -47,7 +61,6 @@ class A extends React.Component {
     <h3>Output of the markdown is:</h3>
     <div
       className='content'
-      // dangerouslySetInnerHTML={this.state.value}
     >{this.state.value}
     </div>
     </div>
@@ -56,6 +69,33 @@ class A extends React.Component {
 
 }
 
+class IntroText extends React.Component{
+	render(){
+		return(
+      <div>
+			    <h1>Calculator refactored into React</h1>
+          <p>Goal:  Refactor my existing javascript calculator into a React app.</p>
+          <h5>I am doing this in Summer 2022 with Kevin Chan, my tutor's help to improve my React skills.</h5>
+          <h5>Next steps:</h5>
+        <ul>
+          <li>I'm following this <a href="https://codepen.io/kericarpenter/pen/YzayKWN" target="_blank">React Calcuator</a> from CodePen.io</li>
+          <li>Figuring out how to use my existing Calculator in "calculatorReact.js" in "my-app" and conform it to the React Calculator.</li>
+        </ul>
+      </div>
+		);
+	}
+};
+
+class Output extends React.Component{
+	render(){
+		return(
+			<div className='output'>
+          <div className='previous-operand' data-previous-operand></div>
+          <div className='current-operand' data-current-operand></div>
+      </div>
+		);
+	}
+};
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
