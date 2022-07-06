@@ -1,25 +1,88 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-// import './index.css';
 import reportWebVitals from './reportWebVitals';
 
-function NumberButton(props) {
-  return <button data-number>{props.number}</button>;
+class CreateButton extends React.Component {
+  render(){
+  return <button onClick={() => this.props.onClickHandler(this.props.number[2])} data-number>{this.props.number[2]}</button>;
+  }
 }
 
 class A extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value : 'Hello ***world!***!'};
-    // this.md = new Remarkable();
-    this.b = this.b.bind(this);
+    this.onClickHandler = this.onClickHandler.bind(this);
   }
 
-  b(e) {
-    this.setState(
-      {value: e.target.value}
-      );
+  clear() {
+    console.log("User pressed AC.  It made it into the clear function");
   }
+
+  updateDisplay() {
+    console.log("Executed updateDisplay function.");
+  }
+
+  delete() {
+    console.log("Executed delete function.");
+  }  
+
+  compute() {
+    console.log("Works.");
+  } 
+
+  chooseOperation(theButton) {
+    console.log("The operation it passed is ",theButton);
+  } 
+
+  appendNumber(theButton) {
+    console.log("The operation it passed is ",theButton);
+  }
+
+  onClickHandler(theButton){
+    console.log("It made it in to onClickHandler.  The parameter value is ",theButton);
+    switch(theButton){
+      case "AC":
+          this.clear();
+          this.updateDisplay();
+          console.log("This AC is happening in the case statement "+theButton)
+          break;
+      case "DEL":
+          this.delete();
+          this.updateDisplay();
+          break;
+      case "=":
+          this.compute();
+          this.updateDisplay();
+          // This is a hack I used because the numbers weren't clearing after equals.
+          // wasEqual = true;
+          // this.currentOperand = '';
+          // this.previousOperand = '';
+          // this.operation = undefined;
+          break;
+      case "%":
+      case "*":
+      case "+":
+      case "-":
+          this.chooseOperation(theButton);
+          this.updateDisplay();
+          break;
+      case ".":
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+      case 6:
+      case 7:
+      case 8:
+      case 9:
+      case 0:
+          this.appendNumber(theButton);
+          this.updateDisplay();
+          break;
+  }
+  }
+
 
   c() {
     console.log("It got in here!");
@@ -27,41 +90,43 @@ class A extends React.Component {
   }
 
   render() {
-    const numbers = [null, "AC","Del","%",1, 2, 3, "*",4, 5, 6, "+",7, 8, 9,"-",".", 0, null, "="];
+    const printButtons = 
+    [
+        ['button', null, null],
+        ['button','data-all-clear','AC'],
+        ['button','data-delete','DEL'],
+        ['button','data-operation','%'],
+        ['button','data-number',1],
+        ['button','data-number',2], 
+        ['button','data-number',3], 
+        ['button','data-operation','*'],
+        ['button','data-number',4],
+        ['button','data-number',5], 
+        ['button','data-number',6], 
+        ['button','data-operation','+'],
+        ['button','data-number',7],
+        ['button','data-number',8], 
+        ['button','data-number',9], 
+        ['button','data-operation','-'],
+        ['button','data-operation','.'], 
+        ['button','data-number',0], 
+        ['button', null, null],
+        ['button', 'data-equals', "="],
+    ];
 
-    // <button className='span-two' data-all-clear>AC</button>
-    // <button data-delete>DEL</button>
-    // <button data-operation>%</button>
-    // <button data-operation="">*</button>
-    // <button data-operation="">+</button>
-    // <button data-operation="">-</button>
-    // <button data-operation="">.</button>
-    // <button className="span-two" data-equals="">=</button>
     return(
     <div>
     <IntroText />
     <div className='onecolumnwrapper'>
       <div className="calculator-grid">
         <Output />
-        {numbers.map((number) =>{
-          return <NumberButton number={number} />
+        {printButtons.map((number) =>{
+          return (
+            <CreateButton number={number} onClickHandler={this.onClickHandler} />
+          )
+        
         })}
       </div>
-    </div>
-    <hr></hr>
-    <h3>Below this is template stuff.  Old stuff that it might be helpful to have around for a bit.  But ultimately take out.</h3>
-    <label htmlFor='markdown-content'>Enter some markdown here</label>
-    <br></br>
-    <textarea
-      defaultValue={this.state.value}
-      onChange={this.b}
-      id='markdown-content'
-    >
-    </textarea>
-    <h3>Output of the markdown is:</h3>
-    <div
-      className='content'
-    >{this.state.value}
     </div>
     </div>
     )
@@ -78,7 +143,10 @@ class IntroText extends React.Component{
           <h5>I am doing this in Summer 2022 with Kevin Chan, my tutor's help to improve my React skills.</h5>
           <h5>Next steps:</h5>
         <ul>
-          <li>I'm following this <a href="https://codepen.io/kericarpenter/pen/YzayKWN" target="_blank">React Calcuator</a> from CodePen.io</li>
+          <li>Add some of the functions onto the buttons</li>
+          <li>Get it to output the values to the console.</li>
+          <li>Output to the display component (which I don't know how to do).</li>
+          <li>I'm following this <a href="https://codepen.io/kericarpenter/pen/YzayKWN" target="_blank" rel="noopener noreferrer">React Calcuator</a> from CodePen.io</li>
           <li>Figuring out how to use my existing Calculator in "calculatorReact.js" in "my-app" and conform it to the React Calculator.</li>
         </ul>
       </div>
