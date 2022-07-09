@@ -8,56 +8,125 @@ class CreateButton extends React.Component {
   }
 }
 
-class A extends React.Component {
+class Calculator extends React.Component {
   constructor(props) {
     super(props);
+    this.currentOperand = '';
+    this.previousOperand = '';
     this.onClickHandler = this.onClickHandler.bind(this);
   }
 
   clear() {
-    console.log("User pressed AC.  It made it into the clear function");
+    this.currentOperand = '';
+    this.previousOperand = '';
+    this.operation = undefined;
   }
 
   updateDisplay() {
-    console.log("Executed updateDisplay function.");
+    document.querySelector(".current-operand").innerText = 
+    this.getDisplayNumber(this.currentOperand);
+    if(this.operation != null){
+        document.querySelector(".previous-operand").innerText = 
+        `${this.getDisplayNumber(this.previousOperand)} ${this.operation}`;
+    } else {
+      document.querySelector(".previous-operand").innerText = ''; 
+    }
+  }
+
+  getDisplayNumber(number){
+    const stringNumber = number.toString();
+    const integerDigits = parseFloat(stringNumber.split('.'));
+    const decimalDigits = stringNumber.split('.')[1];
+    let integerDisplay
+    if(isNaN(integerDigits)) {
+        integerDisplay = ''
+    } else {
+        integerDisplay = integerDigits.toLocaleString('en', {
+         maximumFractionDigits: 0   
+        })
+    }
+    if (decimalDigits != null) {
+        return `${integerDisplay}.${decimalDigits}`
+    } else {
+        return integerDisplay;
+    }
   }
 
   delete() {
-    console.log("Executed delete function.");
-  }  
-
+  this.currentOperand = this.currentOperand.toString().slice(0,-1);
+  }
+  
   compute() {
-    console.log("Works.");
-  } 
-
-  chooseOperation(theButton) {
-    console.log("The operation it passed is ",theButton);
-  } 
-
-  appendNumber(theButton) {
-    console.log("The operation it passed is ",theButton);
+    let computation;
+    const prev = parseFloat(this.previousOperand);
+    // console.log("Previous Number is "+ this.previousOperand);
+    // console.log("Current Operand is "+ this.currentOperand);
+    const curr = parseFloat(this.currentOperand);
+    if(isNaN(prev) || isNaN(curr)) return;
+    switch(this.operation) {
+        case '+':
+            computation = prev + curr;
+            break;
+        case '-':
+            computation = prev - curr;
+            break;
+        case '*':
+            computation = prev * curr;
+            break;
+        case '%':
+            computation = prev / curr;
+            break;
+        default:
+            return;
+    }
+    this.currentOperand = computation;
+    this.operation = undefined;
+    this.previousOperand = '';
+    // console.log("The value of computation is " + computation);
   }
 
+  chooseOperation(operation) {
+    if (this.currentOperand === '') return;
+    if (this.previousOperand !== '') {
+        this.compute();
+    }
+    this.operation = operation;
+    this.previousOperand = this.currentOperand;
+    this.currentOperand = '';
+  }
+
+  appendNumber(number) {
+    // if(wasEqual === true) {
+    //     this.currentOperand = '';
+    //     wasEqual = false;
+    // }
+    if(number === '.' && this.currentOperand.includes('.')) return;
+    if(isNaN(this.currentOperand)) 
+    { 
+            this.currentOperand = number.toString();
+    } else this.currentOperand = this.currentOperand.toString() + number.toString();
+    }
+
   onClickHandler(theButton){
-    console.log("It made it in to onClickHandler.  The parameter value is ",theButton);
+    // console.log("It made it in to onClickHandler.  The parameter value is ",theButton);
     switch(theButton){
       case "AC":
           this.clear();
           this.updateDisplay();
-          console.log("This AC is happening in the case statement "+theButton)
           break;
       case "DEL":
           this.delete();
           this.updateDisplay();
           break;
       case "=":
+      default:
           this.compute();
           this.updateDisplay();
           // This is a hack I used because the numbers weren't clearing after equals.
           // wasEqual = true;
-          // this.currentOperand = '';
-          // this.previousOperand = '';
-          // this.operation = undefined;
+          this.currentOperand = '';
+          this.previousOperand = '';
+          this.operation = undefined;
           break;
       case "%":
       case "*":
@@ -83,11 +152,6 @@ class A extends React.Component {
   }
   }
 
-
-  c() {
-    console.log("It got in here!");
-    return;
-  }
 
   render() {
     const printButtons = 
@@ -140,15 +204,7 @@ class IntroText extends React.Component{
       <div>
 			    <h1>Calculator refactored into React</h1>
           <p>Goal:  Refactor my existing javascript calculator into a React app.</p>
-          <h5>I am doing this in Summer 2022 with Kevin Chan, my tutor's help to improve my React skills.</h5>
-          <h5>Next steps:</h5>
-        <ul>
-          <li>Add some of the functions onto the buttons</li>
-          <li>Get it to output the values to the console.</li>
-          <li>Output to the display component (which I don't know how to do).</li>
-          <li>I'm following this <a href="https://codepen.io/kericarpenter/pen/YzayKWN" target="_blank" rel="noopener noreferrer">React Calcuator</a> from CodePen.io</li>
-          <li>Figuring out how to use my existing Calculator in "calculatorReact.js" in "my-app" and conform it to the React Calculator.</li>
-        </ul>
+          <h5>I did this in Summer 2022 with Kevin Chan, my tutor's help to improve my React skills.</h5>
       </div>
 		);
 	}
@@ -168,7 +224,7 @@ class Output extends React.Component{
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <A />
+    <Calculator />
   </React.StrictMode>
 );
 
