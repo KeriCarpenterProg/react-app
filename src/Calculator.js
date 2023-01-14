@@ -2,7 +2,7 @@ import React from 'react';
 
 class CreateButton extends React.Component {
   render(){
-  return <button class={this.props.number[0]} onClick={() => this.props.onClickHandler(this.props.number[2])} data-number>{this.props.number[2]}</button>;
+  return <button class={this.props.number[0]} onClick={() => this.props.onClickHandler(this.props.number[2])} data={this.props.number[1]}>{this.props.number[2]}</button>;
   }
   }
 
@@ -199,8 +199,16 @@ class IntroText extends React.Component{
 		return(
       <div>
 			    <h1>Calculator refactored into React</h1>
-          <p>Goal:  Refactor <a href="https://kericarpenterprog.github.io/my-app/calculator.html">my existing javascript calculator </a> into a React app.</p>
-          <h5>I did this in Summer 2022 with Kevin Chan, my tutor's help to improve my React skills.</h5>
+          <p>Goal:  Refactor 
+              <a href="https://kericarpenterprog.github.io/my-app/calculator.html">
+              my existing javascript calculator </a> into a React app.</p>
+          <h5>I did this in Summer 2022 with Kevin Chan, my tutor's help to 
+              improve my React skills.</h5>
+          <p>To Do:  Figure out how to get this react app to display on my personal
+           github using github pages. 
+          <a href="https://hackernoon.com/how-to-deploy-a-react-app-to-github-pages">
+          Here's an article that Kevin gave me</a> that explains how to do it, but 
+          its not quite working.  Maybe try another article.</p>
       </div>
 		);
 	}
